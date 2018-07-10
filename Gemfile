@@ -17,6 +17,7 @@ gem "uglifier", ">= 1.3.0"
 gem "webpacker"
 
 group :development, :test do
+  gem "bullet"
   gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "rspec-rails", "~> 3.7"
   gem "rubocop-rails_config"
