@@ -19,7 +19,7 @@
       <% %w(danger success warning info).each do |type| %>
         <% if flash[type].present? %>
           <div class="flash flash-<%= type %>" role="alert">
-            This is a test.
+            <div class="msg"><%= flash[type] %></div>
           </div>
         <% end %>
       <% end %>

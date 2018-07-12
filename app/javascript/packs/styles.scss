@@ -1,4 +1,8 @@
 @import "~bootstrap/scss/bootstrap";
+$fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/fa-solid";
+@import "~@fortawesome/fontawesome-free/scss/fa-regular";
 
 .flash {
   @extend .container;
@@ -6,9 +10,23 @@
   padding-bottom: 0.25rem;
   border-bottom-style: solid;
   border-bottom-width: 0.1rem;
+
+  .msg {
+    padding-left: 1.75rem;
+  }
 }
 
 @each $color, $value in $theme-colors {
+  .flash-#{$color}::before {
+    @include fa-icon;
+    @extend .fas;
+    content: fa-content($fa-var-info-circle);
+    font-weight: 900;
+    font-size: 1.25rem;
+    float: left;
+    padding-top: 0.1rem;
+  }
+
   .flash-#{$color} {
     background-color: theme-color($color);
     border-bottom-color: theme-color-level($color, 5);
