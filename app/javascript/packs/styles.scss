@@ -1,1 +1,24 @@
-@import "~bootstrap/dist/css/bootstrap";
+@import "~bootstrap/scss/bootstrap";
+
+.flash {
+  @extend .container;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1rem;
+}
+
+@each $color, $value in $theme-colors {
+  .flash-#{$color} {
+    background-color: theme-color($color);
+    border-bottom-color: theme-color-level($color, 5);
+  }
+}
+
+.content {
+  margin-top: 3.5rem;
+}
+
+main {
+  @extend .pt-4;
+}
