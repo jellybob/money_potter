@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get "/hello", controller: "home", action: "hello"
-  root "home#index"
+  resources :pots, only: :index
 end
