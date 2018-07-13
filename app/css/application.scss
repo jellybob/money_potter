@@ -1,0 +1,17 @@
+@import "flash";
+
+.navbar-brand::before {
+  @extend .fas;
+  content: fa-content($fa-var-piggy-bank);
+  margin-right: 1rem;
+}
+
+
+.content {
+  margin-top: 3.5rem;
+}
+
+main {
+  @extend .pt-4;
+}
+
