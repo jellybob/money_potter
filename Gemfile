@@ -20,9 +20,10 @@ group :development, :test do
   gem "bullet"
   gem "byebug", platforms: %i[mri mingw x64_mingw]
   gem "capybara", ">= 2.4"
+  gem "rails-controller-testing"
   gem "rspec-rails", "~> 3.7"
   gem "rubocop-rails_config"
-  gem "rails-controller-testing"
+  gem "shoulda-matchers"
 end
 
 group :development do
