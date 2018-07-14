@@ -143,6 +143,9 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     redis (4.0.1)
+    rein (3.5.0)
+      activerecord (>= 4.0.0, < 6)
+      activesupport (>= 4.0.0, < 6)
     rspec-core (3.7.1)
       rspec-support (~> 3.7.0)
     rspec-expectations (3.7.0)
@@ -244,6 +247,7 @@ DEPENDENCIES
   rails (~> 5.2.0)
   rails-controller-testing
   redis (~> 4.0)
+  rein (~> 3)
   rspec-rails (~> 3.7)
   rubocop-rails_config
   sass-rails (~> 5.0)
