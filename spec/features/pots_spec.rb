@@ -8,7 +8,6 @@ RSpec.feature "pot management" do
     Pot.create!(name: "Eating Out")
     visit "/pots"
 
-    expect(page).to have_text("Pots")
     expect(page).to have_text("Groceries")
     expect(page).to have_text("Eating Out")
   end
