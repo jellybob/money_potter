@@ -1,0 +1,34 @@
+$budget-colors: (
+  "under": "success",
+  "approaching": "warning",
+  "over": "danger",
+);
+
+.pot-summary {
+  .pot-summary--budget-progress {
+    @extend .progress;
+    @extend .mb-4;
+
+    height: 2rem;
+  }
+
+  h2 small {
+    white-space: nowrap;
+  }
+
+  @each $type, $color in $budget-colors {
+    &.pot-summary--#{$type}-budget {
+      h2 {
+        @extend .h4;
+      }
+
+      h2 small {
+        color: theme-color($color);
+      }
+
+      .progress-bar {
+        background-color: theme-color($color);
+      }
+    }
+  }
+}
