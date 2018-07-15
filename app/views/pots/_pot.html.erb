@@ -1,31 +1,17 @@
 <% cache ["pot_list_v1", pot] do %>
-  <% 
-  budget = rand(300)
-  used = rand(300)
-  remaining = budget - used
-  percent = (used.zero? || budget.zero?) ? 0 : (used.to_f / budget.to_f) * 100
-  classname = 
-    if percent > 75 && percent < 100
-      "approaching"
-    elsif percent >= 100
-      "over"
-    else
-      "under"
-    end
-  %>
-  <div class="pot-summary pot-summary--<%= classname %>-budget">
+  <div class="pot-summary pot-summary--<%= pot.state %>-budget">
     <h2>
       <%= pot.name %>
       <small>
-        <%= number_to_currency(remaining.abs) %> <%= remaining > 0 ? "left" : "over budget" %>
+        <%= pot.budget_remaining.abs %> <%= pot.state == :over ? "over budget" : "left" %>
       </small>
     </h2>
     <div class="pot-summary--budget-progress">
       <div
          class="progress-bar"
-         style="width: <%= [percent.to_i, 100].min %>%"
+         style="width: <%= [pot.percent_consumed.round, 100].min %>%"
          role="progressbar"
-         aria-valuenow="<%= [percent.to_i, 100].min %>"
+         aria-valuenow="<%= [pot.percent_consumed.round, 100].min %>"
          aria-valuemin="0"
          aria-valuemax="100">
       </div>
