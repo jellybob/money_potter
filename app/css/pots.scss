@@ -1,9 +1,3 @@
-$budget-colors: (
-  "under": "success",
-  "warning": "warning",
-  "over": "danger",
-);
-
 .pot-summary {
   .pot-summary--budget-progress {
     @extend .progress;
@@ -12,23 +6,26 @@ $budget-colors: (
     height: 2rem;
   }
 
-  h2 small {
-    white-space: nowrap;
+  h2 {
+    @extend .h4;
+
+    small {
+      // If the pot title is too long to fit the status text in the
+      // same line then wrap the entire status text to the next.
+      white-space: nowrap;
+     }
   }
+
+  $budget-colors: (
+    "under": "success",
+    "warning": "warning",
+    "over": "danger",
+  );
 
   @each $type, $color in $budget-colors {
     &.pot-summary--#{$type}-budget {
-      h2 {
-        @extend .h4;
-      }
-
-      h2 small {
-        color: theme-color($color);
-      }
-
-      .progress-bar {
-        background-color: theme-color($color);
-      }
+      h2 small { color: theme-color($color); }
+      .progress-bar { background-color: theme-color($color); }
     }
   }
 }
