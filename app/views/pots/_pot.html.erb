@@ -1,5 +1,9 @@
 <% cache ["pot_list_v1", pot] do %>
-  <div class="pot-summary pot-summary--<%= pot.state %>-budget" id="<%= dom_id(pot) %>">
+  <div
+    class="pot-summary pot-summary--<%= pot.state %>-budget"
+    id="<%= dom_id(pot) %>"
+    data-target="pot-list.pot"
+    data-name="<%= pot.name.downcase %>">
     <h2>
       <%= pot.name %>
       <small>
