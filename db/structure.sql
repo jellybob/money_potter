@@ -49,6 +49,8 @@ CREATE TABLE public.pots (
     updated_at timestamp without time zone NOT NULL,
     budget_pence integer DEFAULT 0 NOT NULL,
     budget_currency character varying DEFAULT 'GBP'::character varying NOT NULL,
+    payments_total_pence integer DEFAULT 0 NOT NULL,
+    payments_total_currency character varying DEFAULT 'GBP'::character varying NOT NULL,
     CONSTRAINT pots_budget_pence_numericality CHECK ((budget_pence >= 0)),
     CONSTRAINT pots_name_presence CHECK (((name IS NOT NULL) AND ((name)::text !~ '^\s*$'::text)))
 );
@@ -121,6 +123,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20180713165959'),
-('20180714091600');
+('20180714091600'),
+('20180715120323');
 
 

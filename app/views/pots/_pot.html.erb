@@ -1,9 +1,9 @@
 <% cache ["pot_list_v1", pot] do %>
-  <div class="pot-summary pot-summary--<%= pot.state %>-budget">
+  <div class="pot-summary pot-summary--<%= pot.state %>-budget" id="<%= dom_id(pot) %>">
     <h2>
       <%= pot.name %>
       <small>
-        <%= pot.budget_remaining.abs %> <%= pot.state == :over ? "over budget" : "left" %>
+        <%= pot.budget_remaining.abs.format %> <%= pot.state == :over ? "over budget" : "remaining" %>
       </small>
     </h2>
     <div class="pot-summary--budget-progress">
