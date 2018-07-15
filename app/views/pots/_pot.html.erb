@@ -14,11 +14,9 @@
       </small>
     </h2>
     <div class="pot-summary--budget-progress">
-      <%= tag :div, {
+      <%= content_tag :div, "", {
         class: "progress-bar",
-        style: {
-          width: "#[progress(pot.percent_consumed)}%",
-        },
+        style: "width: #{progress(pot.percent_consumed)}%",
         aria: {
           valuenow: progress(pot.percent_consumed),
           valuemin: 0,

@@ -1,11 +1,4 @@
 <div class="container" data-controller="pot-list">
-  <div class="pot-list-search d-none" data-target="pot-list.form">
-    <input
-       type="search"
-       class="form-control"
-       data-target="pot-list.query"
-       data-action="keyup->pot-list#search focus->pot-list#resetFilter">
-    <i class="fas fa-search"></i>
-  </div>
+  <%= render "search" %>
   <%= render @pots %>
 </div>
