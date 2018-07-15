@@ -13,32 +13,38 @@ export default class extends Controller {
   static targets = [ "pot", "form", "query" ]
 
   initialize() {
-    this.formTarget.classList.remove("d-none");
+    this.setHidden(false, this.formTarget);
     this.resetFilter();
   }
 
   resetFilter() {
     this.queryTarget.value = "";
-    for (let pot of this.potTargets) { pot.classList.remove("d-none"); }
+    for (let pot of this.potTargets) { this.setHidden(false, pot); }
   }
 
   applyFilter(query) {
+    let nameMatcher = query.toLowerCase();
+
     for (let pot of this.potTargets) {
-      if (pot.getAttribute("data-name").includes(query.toLowerCase())) {
-        pot.classList.remove("d-none");
-      } else {
-        pot.classList.add("d-none");
-      }
+      let name = pot.getAttribute("data-name");
+      let match = name.includes(nameMatcher);
+
+      this.setHidden(!match, pot);
     }
   }
 
   search() {
-    let query = this.queryTarget.value;
-    if (query === '') {
+    let query = this.queryTarget.value.trim();
+    if (query.length == 0) {
       this.resetFilter();
     } else {
       this.applyFilter(query);
     }
+  }
+
+  setHidden(hidden, element) {
+    let classes = element.classList;
+    hidden ? classes.add("d-none") : classes.remove("d-none");
   }
 }
 
