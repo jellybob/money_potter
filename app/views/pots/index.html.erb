@@ -4,7 +4,7 @@
        type="search"
        class="form-control"
        data-target="pot-list.query"
-       data-action="keyup->pot-list#search" />
+       data-action="keyup->pot-list#search focus->pot-list#resetFilter">
     <i class="fas fa-search"></i>
   </div>
   <%= render @pots %>

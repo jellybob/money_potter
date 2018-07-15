@@ -18,7 +18,8 @@ export default class extends Controller {
   }
 
   resetFilter() {
-   for (let pot of this.potTargets) { pot.classList.remove("d-none"); }
+    this.queryTarget.value = "";
+    for (let pot of this.potTargets) { pot.classList.remove("d-none"); }
   }
 
   applyFilter(query) {
