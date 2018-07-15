@@ -1,9 +1,12 @@
-<% cache ["pot_list_v1", pot] do %>
-  <div
-    class="pot-summary pot-summary--<%= pot.state %>-budget"
-    id="<%= dom_id(pot) %>"
-    data-target="pot-list.pot"
-    data-name="<%= pot.name.downcase %>">
+<% cache ["pot-summary", pot] do %>
+  <%= content_tag :div, {
+    class: ["pot-summary", "pot-summary--#{pot.state}-budget"].join(" "),
+    id: dom_id(pot),
+    data: {
+      name: pot.name.downcase,
+      target: "pot-list.pot",
+    }
+  } do %>
     <h2>
       <%= pot.name %>
       <small>
@@ -11,14 +14,17 @@
       </small>
     </h2>
     <div class="pot-summary--budget-progress">
-      <div
-         class="progress-bar"
-         style="width: <%= [pot.percent_consumed.round, 100].min %>%"
-         role="progressbar"
-         aria-valuenow="<%= [pot.percent_consumed.round, 100].min %>"
-         aria-valuemin="0"
-         aria-valuemax="100">
-      </div>
+      <%= tag :div, {
+        class: "progress-bar",
+        style: {
+          width: "#[progress(pot.percent_consumed)}%",
+        },
+        aria: {
+          valuenow: progress(pot.percent_consumed),
+          valuemin: 0,
+          valuemax: 100,
+        }
+      } %>
     </div>
-  </div>
+  <% end %>
 <% end %>
