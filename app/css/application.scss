@@ -1,6 +1,7 @@
 @import "flash";
 @import "pots";
 @import "pot-list";
+@import "payment-form";
 
 .navbar-brand::before {
   @extend .fas;
@@ -16,3 +17,21 @@ main {
   @extend .pt-4;
 }
 
+.input-group {
+  .input-group-text {
+    background-color: white;
+    border-right: none;
+    padding-right: 0.2rem;
+
+    i.fa-pound-sign {
+      position: relative;
+      top: -0.1rem;
+      left: -0.2rem;
+    }
+  }
+
+  .form-control {
+    border-left: none;
+    padding-left: 0rem;
+  }
+}

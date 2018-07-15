@@ -1,3 +1,6 @@
+<% content_for(:pre_container) do %>
+  <%= render "payments/form" %>
+<% end %>
 <div class="container" data-controller="pot-list">
   <%= render "search" %>
   <%= render @pots %>

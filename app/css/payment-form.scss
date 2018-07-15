@@ -1,0 +1,10 @@
+.payment-form {
+  @extend .pt-3;
+  @extend .pb-3;
+  background-color: theme-color-level("primary", 2);
+
+  form {
+    @extend .container;
+    @extend .pt-3;
+  }
+}
