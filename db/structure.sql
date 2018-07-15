@@ -47,8 +47,9 @@ CREATE TABLE public.pots (
     name character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    budget integer DEFAULT 0,
-    CONSTRAINT pots_budget_numericality CHECK ((budget >= 0)),
+    budget_pence integer DEFAULT 0 NOT NULL,
+    budget_currency character varying DEFAULT 'GBP'::character varying NOT NULL,
+    CONSTRAINT pots_budget_pence_numericality CHECK ((budget_pence >= 0)),
     CONSTRAINT pots_name_presence CHECK (((name IS NOT NULL) AND ((name)::text !~ '^\s*$'::text)))
 );
 
