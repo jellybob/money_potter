@@ -39,6 +39,40 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: payments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.payments (
+    id bigint NOT NULL,
+    amount_pence integer DEFAULT 0 NOT NULL,
+    amount_currency character varying DEFAULT 'GBP'::character varying NOT NULL,
+    pot_id bigint,
+    tags character varying[] DEFAULT '{}'::character varying[],
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: payments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.payments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.payments_id_seq OWNED BY public.payments.id;
+
+
+--
 -- Name: pots; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -85,6 +119,13 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: payments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments ALTER COLUMN id SET DEFAULT nextval('public.payments_id_seq'::regclass);
+
+
+--
 -- Name: pots id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -97,6 +138,14 @@ ALTER TABLE ONLY public.pots ALTER COLUMN id SET DEFAULT nextval('public.pots_id
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: payments payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
 
 
 --
@@ -116,6 +165,21 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: index_payments_on_pot_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_payments_on_pot_id ON public.payments USING btree (pot_id);
+
+
+--
+-- Name: payments fk_rails_d6b0cc2940; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT fk_rails_d6b0cc2940 FOREIGN KEY (pot_id) REFERENCES public.pots(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -124,6 +188,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('20180713165959'),
 ('20180714091600'),
-('20180715120323');
+('20180715120323'),
+('20180715211307');
 
 

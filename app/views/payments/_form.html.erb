@@ -1,8 +1,8 @@
 <div class="payment-form">
-  <form>
+  <%= form_tag payments_path, method: :post do %>
     <div class="row">
       <div class="form-group col">
-        <select class="custom-select">
+        <select class="custom-select" id="pot_id" name="payment[pot_id]">
           <option selected>Select a pot</option>
           <% Pot.order("name").pluck(:id, :name).each do |(id, name)| %>
             <option value="<%= id %>"><%= name %></option>
@@ -15,7 +15,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text"><i class="fas fa-fw fa-pound-sign"></i></div>
           </div>
-          <input class="form-control" type="number" step="0.02" name="amount" placeholder="Amount">
+          <input class="form-control" type="number" step="0.02" name="payment[amount]" placeholder="Amount">
         </div>
       </div>
       <div class="w-100 d-block d-md-none"></div>
@@ -24,7 +24,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text"><i class="fas fa-fw fa-tag"></i></div>
           </div>
-          <input class="form-control" type="text" name="tags" placeholder="Tags">
+          <input class="form-control" type="text" name="payment[tags]" placeholder="Tags">
         </div>
       </div>
       <div class="w-100"></div>
@@ -32,5 +32,5 @@
         <button type="submit" class="btn btn-success btn-block">Track Payment</button>
       </div>
     </div>
-  </form>
+  <% end %>
 </div>

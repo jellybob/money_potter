@@ -5,6 +5,8 @@ class Pot < ApplicationRecord
   monetize :budget_pence, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   monetize :payments_total_pence
 
+  has_many :payments
+
   def percent_consumed
     (payments_total.to_f / budget.to_f) * 100
   end
@@ -22,5 +24,10 @@ class Pot < ApplicationRecord
     else
       :over
     end
+  end
+
+  def update_payments_total
+    new_total = Money.new(payments.sum(:amount_pence))
+    update_attribute(:payments_total, new_total)
   end
 end

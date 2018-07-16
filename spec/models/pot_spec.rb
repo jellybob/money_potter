@@ -11,6 +11,21 @@ RSpec.describe Pot, type: :model do
         .is_greater_than_or_equal_to(0)
   }
 
+  describe "tracking how much has been spent" do
+    let(:groceries) { Pot.create!(name: "Groceries", budget: 100) }
+    let(:eating_out) { Pot.create!(name: "Eating Out", budget: 250) }
+
+    it "sums all payments in the pot to find the payments total" do
+      Payment.create!(pot_id: groceries.id, amount: 10)
+      Payment.create!(pot_id: eating_out.id, amount: 10)
+      Payment.create!(pot_id: groceries.id, amount: 10)
+
+      groceries.update_payments_total
+
+      expect(groceries.payments_total.format).to eq("£20.00")
+    end
+  end
+
   describe "budget calculations" do
     let(:pot) { Pot.create!(name: "Test Pot", budget: 500) }
 

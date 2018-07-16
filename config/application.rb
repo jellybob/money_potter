@@ -33,5 +33,7 @@ module MoneyPotter
     config.generators.system_tests = nil
 
     config.active_record.schema_format = :sql
+
+    config.autoload_paths << "app/transactions"
   end
 end
