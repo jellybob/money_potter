@@ -1,35 +1,50 @@
 <div class="payment-form">
-  <%= form_tag payments_path, method: :post do %>
-    <div class="row">
-      <div class="form-group col">
-        <select class="custom-select" id="pot_id" name="payment[pot_id]">
-          <option selected>Select a pot</option>
-          <% Pot.order("name").pluck(:id, :name).each do |(id, name)| %>
-            <option value="<%= id %>"><%= name %></option>
-          <% end %>
+  <%= form_tag(
+    payments_path,
+    remote: true,
+    method: :post,
+    data: { controller: "payment-form", action: "payment-form#submit" },
+    class: "needs-validation",
+    novalidate: true) \
+   do %>
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <div class="form-row">
+      <div class="form-group col" data-target="payment-form.potId">
+        <label class="sr-only" for="payment[pot_id]">Pot</label>
+        <select class="custom-select" id="pot_id" name="payment[pot_id]" required>
+          <option value="">Select a pot</option>
+          <%= options_for_select Pot.order(:name).pluck(:name, :id) %>
         </select>
+        <div class="invalid-feedback"></div>
       </div>
       <div class="w-100"></div>
-      <div class="form-group col col-md-3">
+      <div class="form-group col col-md-3" data-target="payment-form.amount">
+        <label class="sr-only" for="payment[amount]">Amount</label>
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text"><i class="fas fa-fw fa-pound-sign"></i></div>
           </div>
-          <input class="form-control" type="number" step="0.02" name="payment[amount]" placeholder="Amount">
+          <input class="form-control" type="number" step="0.02" name="payment[amount]" placeholder="Amount" required>
+          <div class="invalid-feedback"></div>
         </div>
       </div>
       <div class="w-100 d-block d-md-none"></div>
-      <div class="form-group col">
+      <div class="form-group col" data-target="payment-form.tags">
+        <label class="sr-only" for="payment[tags]">Tags</label>
         <div class="input-group">
           <div class="input-group-prepend">
             <div class="input-group-text"><i class="fas fa-fw fa-tag"></i></div>
           </div>
           <input class="form-control" type="text" name="payment[tags]" placeholder="Tags">
+          <div class="invalid-feedback"></div>
         </div>
+        <small class="form-text">
+          Split tags with a comma: "Big shops, Sainsburys"
+        </small>
       </div>
       <div class="w-100"></div>
       <div class="form-group col">
-        <button type="submit" class="btn btn-success btn-block">Track Payment</button>
+        <button type="submit" class="btn btn-success btn-block" data-action="payment-form#submit">Track Payment</button>
       </div>
     </div>
   <% end %>

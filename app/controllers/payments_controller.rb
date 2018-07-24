@@ -4,7 +4,10 @@ class PaymentsController < ApplicationController
   def create
     CreatePaymentTransaction.call(payment_attributes)
     flash.success = "Payment tracked"
-    redirect_back fallback_location: pots_path
+  rescue ActiveRecord::RecordInvalid
+    flash.danger = "Some details were missing"
+  ensure
+    redirect_to pots_path
   end
 
   protected

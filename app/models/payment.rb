@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Payment < ApplicationRecord
-  belongs_to :pot
+  belongs_to :pot, touch: true
   monetize :amount_pence
 
   validates :pot_id, presence: true

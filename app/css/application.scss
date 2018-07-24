@@ -34,4 +34,19 @@ main {
     border-left: none;
     padding-left: 0rem;
   }
+
+}
+
+form.was-validated {
+  .form-group {
+    .input-group-text {
+      border-color: theme-color("success");
+    }
+
+    &.with-error {
+      .input-group-text {
+        border-color: theme-color("danger");
+      }
+    }
+  }
 }

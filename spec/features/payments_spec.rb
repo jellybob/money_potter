@@ -18,4 +18,11 @@ RSpec.feature "payment tracking" do
       expect(page).to have_text("£291.50 remaining")
     end
   end
+
+  scenario "tracking an invalid payment" do
+    select "Groceries", from: "pot_id"
+    click_button "Track Payment"
+
+    expect(page).to have_text("Some details were missing")
+  end
 end
