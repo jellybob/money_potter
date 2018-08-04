@@ -1,0 +1,24 @@
+<div class="card" data-controller="new-pot-form">
+  <div class="card-header" data-action="click->new-pot-form#toggleForm">New Pot</div>
+  <div class="card-body" data-target="new-pot-form.body">
+    <%= form_for Pot.new, remote: true, html: { novalidate: true, class: "needs-validation", data: { action: "new-pot-form#submit" } } do |f| %>
+      <div class="form-row">
+        <div class="form-group col">
+          <%= label_tag :pot_name, "Name", class: "sr-only" %>
+          <%= f.text_field :name, class: "form-control", placeholder: "Name", required: true, data: { target: "new-pot-form.name" } %>
+          <div class="invalid-feedback"></div>
+        </div>
+        <div class="w-100 d-block d-md-none"></div>
+        <div class="form-group col">
+          <%= label_tag :pot_budget, "Monthly Budget", class: "sr-only" %>
+          <%= f.number_field :budget, class: "form-control", placeholder: "Monthly Budget", required: true, data: { target: "new-pot-form.budget" }, inputmode: "numeric", pattern: "[0-9]*" %>
+          <div class="invalid-feedback"></div>
+        </div>
+        <div class="w-100 d-block d-md-none"></div>
+        <div class="form-group col">
+          <%= f.submit "Create Pot", class: "btn btn-success btn-block", data: { target: "new-pot-form.submit" } %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

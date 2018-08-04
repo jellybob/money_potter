@@ -49,4 +49,16 @@ RSpec.feature "pot management" do
       expect(page).to have_text("£0.01 over budget")
     end
   end
+
+  scenario "creating a new pot" do
+    expect(page).to have_selector("#new_pot")
+    within("#new_pot") do
+      fill_in "Name", with: "Games"
+      fill_in "Monthly Budget", with: "43"
+      click_on "Create Pot"
+    end
+
+    expect(page).to have_text("Created Games with a budget of £43")
+    expect(page).to have_selector(".pot-summary h2", text: "Games")
+  end
 end

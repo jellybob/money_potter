@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   resources :payments, only: :create
-  resources :pots, only: :index
+  resources :pots, only: [ :index, :create ]
 
   root "pots#index"
 end
