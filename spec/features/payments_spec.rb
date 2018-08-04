@@ -9,7 +9,7 @@ RSpec.feature "payment tracking" do
   before { visit("/pots") }
 
   scenario "tracking a valid payment" do
-    select "Groceries", from: "pot_id"
+    select "Groceries", from: "Pot"
     fill_in "Amount", with: 28.50
     fill_in "Tags", with: "Big shops"
     click_button "Track Payment"
@@ -20,7 +20,7 @@ RSpec.feature "payment tracking" do
   end
 
   scenario "tracking an invalid payment" do
-    select "Groceries", from: "pot_id"
+    select "Groceries", from: "Pot"
     click_button "Track Payment"
 
     expect(page).to have_text("Some details were missing")
