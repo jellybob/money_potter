@@ -2,7 +2,7 @@
 
 class PotsController < ApplicationController
   def index
-    @pots = Pot.order(:name).all
+    @monthly_budgets = MonthlyBudget.this_month.joins(:pot).includes(:pot).order("pots.name").all
   end
 
   def create

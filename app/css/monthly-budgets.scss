@@ -1,5 +1,5 @@
-.pot-summary {
-  .pot-summary--budget-progress {
+.budget-summary {
+  .budget-summary--budget-progress {
     @extend .progress;
     @extend .mb-4;
 
@@ -10,7 +10,7 @@
     @extend .h4;
 
     small {
-      // If the pot title is too long to fit the status text in the
+      // If the monthly_budget title is too long to fit the status text in the
       // same line then wrap the entire status text to the next.
       white-space: nowrap;
      }
@@ -23,7 +23,7 @@
   );
 
   @each $type, $color in $budget-colors {
-    &.pot-summary--#{$type}-budget {
+    &.budget-summary--#{$type}-budget {
       h2 small { color: theme-color($color); }
       .progress-bar { background-color: theme-color($color); }
     }

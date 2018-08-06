@@ -10,10 +10,10 @@
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <div class="form-row">
       <div class="form-group col" data-target="payment-form.potId">
-        <label class="sr-only" for="payment_pot_id">Pot</label>
-        <select class="custom-select" id="payment_pot_id" name="payment[pot_id]" required>
+        <label class="sr-only" for="payment_monthly_budget_id">Pot</label>
+        <select class="custom-select" id="payment_monthly_budget_id" name="payment[monthly_budget_id]" required>
           <option value="">Select a pot</option>
-          <%= options_for_select Pot.order(:name).pluck(:name, :id) %>
+          <%= options_for_select MonthlyBudget.joins(:pot).order("pots.name").pluck("pots.name", :id) %>
         </select>
         <div class="invalid-feedback"></div>
       </div>

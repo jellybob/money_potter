@@ -1,0 +1,28 @@
+<% cache ["monthly_budget-summary", monthly_budget] do %>
+  <%= content_tag :div, {
+    class: ["budget-summary", "budget-summary--#{monthly_budget.state}-budget"].join(" "),
+    id: dom_id(monthly_budget),
+    data: {
+      name: monthly_budget.name.downcase,
+      target: "pot-list.monthly_budget",
+    }
+  } do %>
+    <h2>
+      <%= monthly_budget.name %>
+      <small>
+        <%= monthly_budget.amount_remaining.abs.format %> <%= monthly_budget.state == :over ? "over budget" : "remaining" %>
+      </small>
+    </h2>
+    <div class="budget-summary--budget-progress">
+      <%= content_tag :div, "", {
+        class: "progress-bar",
+        style: "width: #{progress(monthly_budget.percent_consumed)}%",
+        aria: {
+          valuenow: progress(monthly_budget.percent_consumed),
+          valuemin: 0,
+          valuemax: 100,
+        }
+      } %>
+    </div>
+  <% end %>
+<% end %>

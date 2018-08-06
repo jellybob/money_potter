@@ -3,8 +3,8 @@
 require "rails_helper"
 
 RSpec.feature "payment tracking" do
-  let!(:groceries) { Pot.create!(name: "Groceries", budget: 320) }
-  let!(:eating_out) { Pot.create!(name: "Eating Out", budget: 60) }
+  let!(:groceries) { CreatePotTransaction.call(name: "Groceries", budget: 320).current_budget }
+  let!(:eating_out) { CreatePotTransaction.call(name: "Eating Out", budget: 60).current_budget }
 
   before { visit("/pots") }
 
@@ -14,7 +14,7 @@ RSpec.feature "payment tracking" do
     fill_in "Tags", with: "Big shops"
     click_button "Track Payment"
 
-    within "#pot_#{groceries.id}" do
+    within "#monthly_budget_#{groceries.id}" do
       expect(page).to have_text("£291.50 remaining")
     end
   end

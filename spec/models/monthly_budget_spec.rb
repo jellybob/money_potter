@@ -45,4 +45,46 @@ RSpec.describe MonthlyBudget, type: :model do
       expect(groceries.payments_total.format).to eq("£20.00")
     end
   end
+
+  describe "calculations" do
+    let(:budget) { CreatePotTransaction.call(name: "Test Pot", budget: 500).current_budget }
+
+    context "proportions" do
+      before(:each) do
+        values = [250, 0, 499.5, 500, 502.6, 1000].map { |v| Money.new(v * 100) }
+        allow(budget).to \
+          receive(:payments_total)
+          .and_return(*values)
+      end
+
+      it "can report what proportion of the budget has been consumed" do
+        # Use approximate matchers because I can't be bothered with super detailed
+        # rounding errors.
+        expect(budget.percent_consumed).to be_within(0.5).of(50)
+        expect(budget.percent_consumed).to be_within(0.5).of(0)
+        expect(budget.percent_consumed).to be_within(0.5).of(99.9)
+        expect(budget.percent_consumed).to be_within(0.5).of(100)
+        expect(budget.percent_consumed).to be_within(0.5).of(101)
+        expect(budget.percent_consumed).to be_within(0.5).of(200)
+      end
+
+      it "can report how much of the budget remains" do
+        expect(budget.amount_remaining).to eq(Money.new(250 * 100))
+        expect(budget.amount_remaining).to eq(Money.new(500 * 100))
+        expect(budget.amount_remaining).to eq(Money.new(0.5 * 100))
+        expect(budget.amount_remaining).to eq(Money.new(0 * 100))
+        expect(budget.amount_remaining).to eq(Money.new(-2.6 * 100))
+        expect(budget.amount_remaining).to eq(Money.new(-500 * 100))
+      end
+
+      it "can report the state of the budget" do
+        expect(budget.state).to eq(:under)
+        expect(budget.state).to eq(:under)
+        expect(budget.state).to eq(:warning)
+        expect(budget.state).to eq(:warning)
+        expect(budget.state).to eq(:over)
+        expect(budget.state).to eq(:over)
+      end
+    end
+  end
 end
