@@ -39,6 +39,40 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: monthly_budgets; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.monthly_budgets (
+    id bigint NOT NULL,
+    pot_id bigint,
+    month date NOT NULL,
+    amount_pence integer DEFAULT 0 NOT NULL,
+    amount_currency character varying DEFAULT 'GBP'::character varying NOT NULL,
+    payments_total_pence integer DEFAULT 0 NOT NULL,
+    payments_total_currency character varying DEFAULT 'GBP'::character varying NOT NULL
+);
+
+
+--
+-- Name: monthly_budgets_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.monthly_budgets_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: monthly_budgets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.monthly_budgets_id_seq OWNED BY public.monthly_budgets.id;
+
+
+--
 -- Name: payments; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -119,6 +153,13 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: monthly_budgets id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.monthly_budgets ALTER COLUMN id SET DEFAULT nextval('public.monthly_budgets_id_seq'::regclass);
+
+
+--
 -- Name: payments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -138,6 +179,14 @@ ALTER TABLE ONLY public.pots ALTER COLUMN id SET DEFAULT nextval('public.pots_id
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: monthly_budgets monthly_budgets_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.monthly_budgets
+    ADD CONSTRAINT monthly_budgets_pkey PRIMARY KEY (id);
 
 
 --
@@ -165,6 +214,13 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: index_monthly_budgets_on_pot_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_monthly_budgets_on_pot_id ON public.monthly_budgets USING btree (pot_id);
+
+
+--
 -- Name: index_payments_on_pot_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -180,6 +236,14 @@ ALTER TABLE ONLY public.payments
 
 
 --
+-- Name: monthly_budgets fk_rails_db7ff72b74; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.monthly_budgets
+    ADD CONSTRAINT fk_rails_db7ff72b74 FOREIGN KEY (pot_id) REFERENCES public.pots(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -189,6 +253,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180713165959'),
 ('20180714091600'),
 ('20180715120323'),
-('20180715211307');
+('20180715211307'),
+('20180806062357');
 
 

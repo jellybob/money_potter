@@ -6,7 +6,7 @@ class PotsController < ApplicationController
   end
 
   def create
-    @pot = Pot.create!(pot_params)
+    @pot = CreatePotTransaction.call(pot_params)
     flash[:success] = "Created #{@pot.name} with a budget of #{@pot.budget.format}"
     redirect_to root_path
   end

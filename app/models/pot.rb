@@ -6,6 +6,8 @@ class Pot < ApplicationRecord
   monetize :payments_total_pence
 
   has_many :payments
+  has_many :monthly_budgets, -> { order(:month) }
+  has_one :current_budget, -> { where(month: Date.today.beginning_of_month) }, class_name: "MonthlyBudget"
 
   def percent_consumed
     (payments_total.to_f / budget.to_f) * 100
