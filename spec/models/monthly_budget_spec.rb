@@ -16,6 +16,7 @@ RSpec.describe MonthlyBudget, type: :model do
   end
 
   it { is_expected.to belong_to(:pot) }
+  it { is_expected.to have_many(:payments) }
   it { is_expected.to validate_presence_of(:pot) }
   it { is_expected.to validate_presence_of(:month) }
   specify {
@@ -29,4 +30,19 @@ RSpec.describe MonthlyBudget, type: :model do
         .only_integer
         .is_greater_than_or_equal_to(0)
   }
+
+  describe "tracking how much has been spent" do
+    let(:groceries) { CreatePotTransaction.call(name: "Groceries", budget: 100).current_budget }
+    let(:eating_out) { CreatePotTransaction.call(name: "Eating Out", budget: 250).current_budget }
+
+    it "sums all payments for the month to find the payments total" do
+      Payment.create!(monthly_budget_id: groceries.id, amount: 10)
+      Payment.create!(monthly_budget_id: eating_out.id, amount: 10)
+      Payment.create!(monthly_budget_id: groceries.id, amount: 10)
+
+      groceries.update_payments_total
+
+      expect(groceries.payments_total.format).to eq("£20.00")
+    end
+  end
 end

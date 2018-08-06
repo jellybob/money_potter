@@ -27,9 +27,4 @@ class Pot < ApplicationRecord
       :over
     end
   end
-
-  def update_payments_total
-    new_total = Money.new(payments.sum(:amount_pence))
-    update_attribute(:payments_total, new_total)
-  end
 end

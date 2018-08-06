@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class CreatePaymentTransaction
-  def self.call(pot_id:, amount:, tags:)
-    new.call(pot_id: pot_id, amount: amount, tags: tags)
+  def self.call(monthly_budget_id:, amount:, tags:)
+    new.call(monthly_budget_id: monthly_budget_id, amount: amount, tags: tags)
   end
 
-  def call(pot_id:, amount:, tags:)
+  def call(monthly_budget_id:, amount:, tags:)
     ActiveRecord::Base.transaction do
-      Payment.create!(pot_id: pot_id, amount: amount, tags: tags).tap do |payment|
-        payment.pot.update_payments_total
+      Payment.create!(monthly_budget_id: monthly_budget_id, amount: amount, tags: tags).tap do |payment|
+        payment.monthly_budget.update_payments_total
       end
     end
   end

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Payment < ApplicationRecord
-  belongs_to :pot, touch: true
+  belongs_to :monthly_budget, touch: true
   monetize :amount_pence
 
-  validates :pot_id, presence: true
+  validates :monthly_budget_id, presence: true
 
   def tags=(value)
     return super(value) if value.is_a?(Array)

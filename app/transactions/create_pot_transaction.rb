@@ -8,7 +8,7 @@ class CreatePotTransaction
   def call(attributes)
     ActiveRecord::Base.transaction do
       Pot.create!(attributes).tap do |pot|
-        pot.create_current_budget(amount: pot.budget)
+        pot.create_current_budget(amount: pot.budget.to_i)
       end
     end
   end

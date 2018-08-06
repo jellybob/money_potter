@@ -80,10 +80,10 @@ CREATE TABLE public.payments (
     id bigint NOT NULL,
     amount_pence integer DEFAULT 0 NOT NULL,
     amount_currency character varying DEFAULT 'GBP'::character varying NOT NULL,
-    pot_id bigint,
     tags character varying[] DEFAULT '{}'::character varying[],
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    monthly_budget_id bigint
 );
 
 
@@ -221,21 +221,6 @@ CREATE INDEX index_monthly_budgets_on_pot_id ON public.monthly_budgets USING btr
 
 
 --
--- Name: index_payments_on_pot_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_payments_on_pot_id ON public.payments USING btree (pot_id);
-
-
---
--- Name: payments fk_rails_d6b0cc2940; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.payments
-    ADD CONSTRAINT fk_rails_d6b0cc2940 FOREIGN KEY (pot_id) REFERENCES public.pots(id);
-
-
---
 -- Name: monthly_budgets fk_rails_db7ff72b74; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -254,6 +239,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180714091600'),
 ('20180715120323'),
 ('20180715211307'),
-('20180806062357');
+('20180806062357'),
+('20180806170008');
 
 

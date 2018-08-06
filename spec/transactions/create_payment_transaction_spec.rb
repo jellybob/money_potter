@@ -11,8 +11,9 @@ RSpec.describe CreatePaymentTransaction, type: :model do
   end
 
   let(:pot) { Pot.create!(name: "Test", budget: 4000) }
-  let(:payment) { Payment.new(pot: pot, amount: 12.5) }
-  let(:attributes) { { pot_id: pot.id, amount: 12.5, tags: "" } }
+  let(:budget) { pot.create_current_budget }
+  let(:payment) { Payment.new(monthly_budget: budget, amount: 12.5) }
+  let(:attributes) { { monthly_budget_id: budget.id, amount: 12.5, tags: "" } }
   let(:run) { CreatePaymentTransaction.call(attributes) }
 
   describe "when the payment is valid" do
@@ -25,7 +26,7 @@ RSpec.describe CreatePaymentTransaction, type: :model do
     end
 
     it "attempts to update the payment total" do
-      expect(pot).to receive(:update_payments_total)
+      expect(budget).to receive(:update_payments_total)
 
       run
     end
@@ -42,7 +43,7 @@ RSpec.describe CreatePaymentTransaction, type: :model do
 
     it "doesn't attempt an update of the payment total" do
       begin
-        expect(pot).not_to receive(:update_payments_total)
+        expect(budget).not_to receive(:update_payments_total)
 
         run
       rescue ActiveRecord::RecordInvalid
@@ -53,13 +54,14 @@ RSpec.describe CreatePaymentTransaction, type: :model do
 
   describe "when updating the payment total fails" do
     let(:pot) { Pot.create!(name: "Test", budget: 500) }
+    let(:budget) { CreatePotTransaction.call(name: "Test", budget: 50).current_budget }
     let(:run) do
-      CreatePaymentTransaction.call(pot_id: pot.id, amount: 12.5, tags: "")
+      CreatePaymentTransaction.call(monthly_budget_id: budget.id, amount: 12.5, tags: "")
     end
 
     it "does not write anything to the database" do
       begin
-        allow_any_instance_of(Pot).to receive(:update_payments_total).and_raise(RuntimeError)
+        allow_any_instance_of(MonthlyBudget).to receive(:update_payments_total).and_raise(RuntimeError)
 
         expect { run }.not_to change(Payment, :count)
       rescue RuntimeError

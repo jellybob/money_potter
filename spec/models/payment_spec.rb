@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe Payment, type: :model do
-  it { is_expected.to validate_presence_of(:pot_id) }
+  it { is_expected.to validate_presence_of(:monthly_budget_id) }
   it { is_expected.to validate_numericality_of(:amount) }
 
   describe "setting tags" do
