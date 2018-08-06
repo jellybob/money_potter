@@ -13,6 +13,6 @@ class PaymentsController < ApplicationController
   protected
 
     def payment_attributes
-      params.require(:payment).permit(:pot_id, :amount, :tags)
+      params.require(:payment).permit(:pot_id, :amount, :tags).to_h.symbolize_keys
     end
 end

@@ -5,18 +5,19 @@ require "rails_helper"
 RSpec.describe CreatePaymentTransaction, type: :model do
   it "instantiates and calls itself" do
     expect_any_instance_of(CreatePaymentTransaction).to \
-      receive(:call).with("attributes")
+      receive(:call).with(attributes)
 
-    CreatePaymentTransaction.call("attributes")
+    CreatePaymentTransaction.call(attributes)
   end
 
-  let(:pot) { Pot.new(name: "Test") }
+  let(:pot) { Pot.create!(name: "Test", budget: 4000) }
   let(:payment) { Payment.new(pot: pot, amount: 12.5) }
-  let(:run) { CreatePaymentTransaction.call("attributes") }
+  let(:attributes) { { pot_id: pot.id, amount: 12.5, tags: "" } }
+  let(:run) { CreatePaymentTransaction.call(attributes) }
 
   describe "when the payment is valid" do
     before do
-      expect(Payment).to receive(:create!).with("attributes").and_return(payment)
+      expect(Payment).to receive(:create!).with(attributes).and_return(payment)
     end
 
     it "creates and returns the payment" do
@@ -32,7 +33,7 @@ RSpec.describe CreatePaymentTransaction, type: :model do
 
   describe "when the payment is not valid" do
     before do
-      expect(Payment).to receive(:create!).with("attributes").and_raise(ActiveRecord::RecordInvalid)
+      expect(Payment).to receive(:create!).with(attributes).and_raise(ActiveRecord::RecordInvalid)
     end
 
     it "re-raises the exception" do
@@ -53,12 +54,12 @@ RSpec.describe CreatePaymentTransaction, type: :model do
   describe "when updating the payment total fails" do
     let(:pot) { Pot.create!(name: "Test", budget: 500) }
     let(:run) do
-      CreatePaymentTransaction.call(pot: pot, amount: 12.5)
+      CreatePaymentTransaction.call(pot_id: pot.id, amount: 12.5, tags: "")
     end
 
     it "does not write anything to the database" do
       begin
-        allow(pot).to receive(:update_payments_total).and_raise(RuntimeError)
+        allow_any_instance_of(Pot).to receive(:update_payments_total).and_raise(RuntimeError)
 
         expect { run }.not_to change(Payment, :count)
       rescue RuntimeError
