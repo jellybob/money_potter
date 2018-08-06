@@ -5,7 +5,7 @@ export default class extends Controller {
 
   connect() {
     this.element.classList.remove("was-validated");
-    this.element.querySelector("#payment_pot_id").focus();
+    this.element.querySelector("#payment_monthly_budget_id").focus();
   }
 
   submit(event) {
